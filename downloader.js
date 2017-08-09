@@ -13,17 +13,6 @@ const client = new WebTorrent()
 
 const options = {
   path: downloadsPath,
-  announce: [
-    'udp://explodie.org:6969',
-    'udp://tracker.coppersurfer.tk:6969',
-    'udp://tracker.empire-js.us:1337',
-    'udp://tracker.leechers-paradise.org:6969',
-    'udp://tracker.opentrackr.org:1337',
-    'wss://tracker.btorrent.xyz',
-    'wss://tracker.fastcast.nz',
-    'wss://tracker.openwebtorrent.com'
-  ],
-  
 }
 
 client.add(torrentInfoHash, options, torrent => {
@@ -35,7 +24,7 @@ client.add(torrentInfoHash, options, torrent => {
     console.log(torrent.progress)
   })
   torrent.on('done', () => {
-    console.log(uri, 'downloaded')
+    console.log('downloaded')
   })
 })
 
