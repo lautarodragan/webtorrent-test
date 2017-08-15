@@ -1,29 +1,34 @@
+const useHybrid = process.argv[3] || false
+
+console.log(`Using WebTorrent ${useHybrid ? 'Hybrid' : 'Non-Hybrid'}`)
+
 const fs = require('fs')
 const path = require('path')
-const WebTorrent = require('webtorrent')
+const WebTorrent = require(useHybrid ? 'webtorrent-hybrid' : 'webtorrent')
 
-const filePath = path.join(__dirname, 'file.txt')
+const fileName = process.argv[2]
+const filePath = path.join(__dirname, fileName)
+
+if (!fs.existsSync(filePath)) {
+  console.log(`File ${filePath} not found.`)
+  process.exit()
+}
 
 console.log(`Seeding ${filePath}`)
-console.log('File contents are as follows:')
-console.log()
-console.log(fs.readFileSync(filePath, 'utf8'))
-console.log()
 
 const fileReadStream = fs.createReadStream(filePath)
 
 const client = new WebTorrent()
 
-const options = { // 33cda7a59b708d9e2bc6ad1b77e0b3a49949c468
+const options = {
   path: filePath,
-  name: 'Torrent Name',
+  name: `Sharing ${fileName}`,
   comment: 'Torrent Comment',
   createdBy: 'Mr Mime'
 }
 
-console.log('Seeding file...')
 client.seed(fileReadStream, options, () => {
-  console.log('started seeding')
+  console.log('Started seeding')
 })
 
 setInterval(() => {

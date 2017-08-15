@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "webtorrent": "^0.98.19"
+    "webtorrent": "^0.98.19",
+    "webtorrent-hybrid": "^1.0.6"
   }
 }
