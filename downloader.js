@@ -1,8 +1,8 @@
 const fs = require('fs')
 const path = require('path')
-const WebTorrent = require('webtorrent')
+const WebTorrent = require('webtorrent-hybrid')
 
-const torrentInfoHash = '18f2012c0b0af8972a86ad52b8f288a2b4a0b9b9'
+const torrentInfoHash = process.argv[2]
 
 const downloadsPath = path.join(__dirname, 'downloads')
 
