@@ -8,8 +8,8 @@ var dhtServer = new DHT({ bootstrap: false })
 
 const filename = '20228390_10155298196020325_5318241211675776399_n.jpg'
 
-dhtServer.on('error', function (err) { t.fail(err) })
-dhtServer.on('warning', function (err) { t.fail(err) })
+dhtServer.on('error', function (err) { console.error(err) })
+dhtServer.on('warning', function (err) { console.error(err) })
 
 var client1, client2
 dhtServer.listen(cb)
@@ -18,10 +18,8 @@ function cb() {
 
 	client1 = new WebTorrent({
 		tracker: false,
-		dht: { bootstrap: '127.0.0.1:49522', host: networkAddress.ipv4() } //+ dhtServer.address().port
+		dht: { bootstrap: '127.0.0.1:' + dhtServer.address().port, host: networkAddress.ipv4() }
 	})
-
-	console.log(dhtServer.address().port)
 
 	client1.on('error', function (err) { console.error(err) })
 	client1.on('warning', function (err) { console.error(err) })
@@ -42,21 +40,16 @@ function cb() {
 
 	var announced = false
 	function maybeDone () {
-		console.log(torrent.magnetURI)
 		download(torrent.magnetURI)
 	}
-
 }
 
 function download(magnetURI) {
-
 	console.log('Cliente 2')
 	client2 = new WebTorrent({
 		tracker: false,
-		dht: { bootstrap: '127.0.0.1:49522', host: networkAddress.ipv4() } //+ dhtServer.address().port 
+		dht: { bootstrap: '127.0.0.1:' + dhtServer.address().port, host: networkAddress.ipv4() } 
 	})
-
-	console.log(dhtServer.address().port)
 
 	client2.on('error', function (err) { console.error(err) })
 	client2.on('warning', function (err) { console.error(err) })
@@ -68,7 +61,7 @@ function download(magnetURI) {
 
 	   	if (err) console.error(err)          
 
-		fs.writeFileSync('/home/patricio/export.jpg', buf)
+		fs.writeFileSync('/home/patricio/poet/webtorrent-test/aws/export.jpg', buf)
 
 		gotBuffer = true
 	   	maybeDone()
