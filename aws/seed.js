@@ -8,20 +8,22 @@ var dhtServer = new DHT({ bootstrap: false })
 
 const filename = '20228390_10155298196020325_5318241211675776399_n.jpg'
 
-dhtServer.on('error', function (err) { t.fail(err) })
-dhtServer.on('warning', function (err) { t.fail(err) })
+dhtServer.on('error', function (err) { console.error(err) })
+dhtServer.on('warning', function (err) { console.error(err) })
 
-var client1
-dhtServer.listen(cb)
+dhtServer.listen(20000, function () {
+  console.log('now listening')
+  seed()
+})
 
-function cb() {
-
-	client1 = new WebTorrent({
-		tracker: false,
-		dht: { bootstrap: '127.0.0.1:49522', host: networkAddress.ipv4() } //+ dhtServer.address().port
-	})
+function seed() {
 
 	console.log(dhtServer.address().port)
+
+	var client1 = new WebTorrent({
+		tracker: false,
+		dht: { bootstrap: '127.0.0.1:' + dhtServer.address().port, host: networkAddress.ipv4() }
+	})
 
 	client1.on('error', function (err) { console.error(err) })
 	client1.on('warning', function (err) { console.error(err) })
@@ -38,14 +40,11 @@ function cb() {
 
 	torrent.on('ready', function () {
 		console.log('torrent metadata has been fetched -- sanity check it')
+		console.log(torrent.magnetURI)
 	})
 
 	var announced = false
 	function maybeDone () {
-		console.log(torrent.magnetURI)
+		//do nothing, wait for torrent to be downloaded
 	}
-
-
 }
-
-
