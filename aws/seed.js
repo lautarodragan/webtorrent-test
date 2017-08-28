@@ -36,3 +36,5 @@ function seed() {
 		//do nothing, wait for torrent to be downloaded
 	}
 }
+
+seed()
