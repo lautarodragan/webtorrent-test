@@ -4,29 +4,17 @@ var MemoryChunkStore = require('memory-chunk-store')
 var networkAddress = require('network-address')
 var WebTorrent = require('webtorrent')
 
-var dhtServer = new DHT({ bootstrap: ['router.bittorrent.com:6881', 'router.utorrent.com:6881', 'dht.transmissionbt.com:6881'] })
-
 const filename = '20228390_10155298196020325_5318241211675776399_n.jpg'
-
-dhtServer.on('error', function (err) { console.error(err) })
-dhtServer.on('warning', function (err) { console.error(err) })
-
-dhtServer.listen(20000, function () {
-  console.log('now listening')
-  seed()
-})
 
 function seed() {
 
-	console.log(dhtServer.address().port)
-
 	var client1 = new WebTorrent({
 		tracker: false,
-		dht: { bootstrap: '127.0.0.1:' + dhtServer.address().port } //, host: networkAddress.ipv4()
 	})
 
 	client1.on('error', function (err) { console.error(err) })
 	client1.on('warning', function (err) { console.error(err) })
+	client1.dht.on('node', function (node) { console.error('client1.dht node', node) })
 
 	var torrent = client1.seed(fs.readFileSync(filename), {
 		name: filename

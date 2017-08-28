@@ -8,8 +8,16 @@ const magnetURI = 'magnet:?xt=urn:btih:d1cbfbfa0bcd7a4f97e6f0a67335ca9c0923777e&
 
 var client2 = new WebTorrent({
 	tracker: false,
-	dht: { bootstrap: '181.171.242.154:20000' } // + dhtServer.address().port    //, host: networkAddress.ipv4()
+	dht: { bootstrap: '54.211.60.172:20000' } 
 })
+
+// setInterval(() => { console.log('dht', client2.dhtPort, client2.dht.toJSON()) }, 1000)
+
+// client2.dht.on('error', function (err) { console.error('dht', err) })
+// client2.dht.on('warning', function (err) { console.error('dht', err) })
+// client2.dht.on('listening', function (err) { console.error('dht listening', client2.dht.address()) })
+// client2.dht.on('query', function (err) { console.error('dht query', err) })
+// client2.dht.on('node', function (err) { console.error('dht node', err) })
 
 client2.on('error', function (err) { console.error(err) })
 client2.on('warning', function (err) { console.error(err) })
@@ -21,7 +29,8 @@ client2.on('torrent', function (torrent) {
 
    	if (err) console.error(err)          
 
-	fs.writeFileSync('/home/patricio/poet/webtorrent-test/aws/export.jpg', buf)
+	console.log('Downloaded file to', __dirname + '/downloaded.jpg')
+	fs.writeFileSync(__dirname + '/downloaded.jpg', buf)
 
 	gotBuffer = true
    	maybeDone()
