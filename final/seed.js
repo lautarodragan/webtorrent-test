@@ -2,7 +2,7 @@ var fs = require('fs')
 var WebTorrent = require('webtorrent')
 
 function seed(filename) {
-    var client1 = new WebTorrent({ tracker: false })
+    var client1 = new WebTorrent()
 
     client1.on('error', function (err) { console.error(err) })
     client1.on('warning', function (err) { console.error(err) })

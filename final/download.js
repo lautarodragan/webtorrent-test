@@ -1,10 +1,7 @@
 var fs = require('fs')
-var MemoryChunkStore = require('memory-chunk-store')
 var WebTorrent = require('webtorrent')
 
-const magnetURI = 'magnet:?xt=urn:btih:d1cbfbfa0bcd7a4f97e6f0a67335ca9c0923777e&dn=20228390_10155298196020325_5318241211675776399_n.jpg'
-
-var client2 = new WebTorrent({ tracker: false })
+var client2 = new WebTorrent()
 
 client2.on('error', function (err) { console.error(err) })
 client2.on('warning', function (err) { console.error(err) })
@@ -24,7 +21,8 @@ client2.on('torrent', function (torrent) {
    })
 })
 
-client2.add(magnetURI, {store: MemoryChunkStore})
+const magnetURI = 'magnet:?xt=urn:btih:d1cbfbfa0bcd7a4f97e6f0a67335ca9c0923777e&dn=20228390_10155298196020325_5318241211675776399_n.jpg'
+client2.add(magnetURI)
 
 var gotBuffer = false
 var gotDone = false
